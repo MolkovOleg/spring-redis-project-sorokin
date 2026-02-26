@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: spring-redis-project
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
+    hikari:
+      maximum-pool-size: 20
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.hibernate.jdbc.batch_size: 100
+      hibernate.hibernate.default_schema: public
+    open-in-view: false
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:localhost}
+      port: ${SPRING_REDIS_PORT:6379}
+      password: ${SPRING_REDIS_PASSWORD:}
+      username: ${SPRING_REDIS_USERNAME:}
+  cache:
+    type: redis
+  ssl:
+    bundle:
+      pem:
+        selectel:
+          truststore:
+            certificate: classpath:certs/CA.pem
+server:
+  error:
+    include-message: always
+    include-stacktrace: never
+
+rate-limit:
+  enabled: ${RATE_LIMIT_ENABLED:true}
+  limit: ${RATE_LIMIT_LIMIT:10}
+  window-size: ${RATE_LIMIT_WINDOW_SIZE:60s}
